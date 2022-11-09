@@ -28,10 +28,19 @@ async function run() {
     //* create a document to insert
 
     app.post("/add/service", async (req, res) => {
-      const user = req.body;
-      console.log(user);
-      const result = await serviceCollection.insertOne(user);
+      const addService = req.body;
+      console.log(addService);
+      const result = await serviceCollection.insertOne(addService);
       res.send(result);
+    });
+
+    //* data read
+
+    app.get("/homeservices", async (req, res) => {
+      const query = {};
+      const cursor = serviceCollection.find(query).limit(3);
+      const services = await cursor.toArray();
+      res.send(services);
     });
   } finally {
     // await client.close();
