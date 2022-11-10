@@ -4,7 +4,7 @@ const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 require("dotenv").config();
 const app = express();
 const port = process.env.PORT || 5000;
-
+//* middleware
 app.use(cors());
 app.use(express.json());
 
@@ -76,7 +76,7 @@ async function run() {
       res.send(reviews);
     });
 
-    //* read all Data for mY reviews
+    //* read all Data for My reviews
     app.get("/myreview", async (req, res) => {
       let query = {};
       if (req.query.email) {
