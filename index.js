@@ -38,7 +38,7 @@ async function run() {
 
     //* create a document to insert review
 
-    app.post('/review', async (req, res) => {
+    app.post("/review", async (req, res) => {
       const addReviews = req.body;
       console.log(addReviews);
       const result = await reviewCollection.insertOne(addReviews);
@@ -53,19 +53,40 @@ async function run() {
       const services = await cursor.toArray();
       res.send(services);
     });
-    //* read all Data
+    //* read all Data services
     app.get("/services", async (req, res) => {
       const query = {};
       const cursor = serviceCollection.find(query);
       const services = await cursor.toArray();
       res.send(services);
     });
-    //* specific  data read
+    //* specific  data read services
     app.get("/servicedetails/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
       const service = await serviceCollection.findOne(query);
       res.send(service);
+    });
+
+    //* read all Data reviews
+    app.get("/showreview", async (req, res) => {
+      const query = {};
+      const cursor = reviewCollection.find(query);
+      const reviews = await cursor.toArray();
+      res.send(reviews);
+    });
+
+    //* read all Data for mY reviews
+    app.get("/myreview", async (req, res) => {
+      let query = {};
+      if (req.query.email) {
+        query = {
+          email: req.query.email,
+        };
+      }
+      const cursor = reviewCollection.find(query);
+      const myReviews = await cursor.toArray();
+      res.send(myReviews);
     });
   } finally {
     // await client.close();
